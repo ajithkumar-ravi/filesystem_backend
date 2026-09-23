@@ -23,6 +23,7 @@ This is the backend for the File Explorer application. It is built using Node.js
     ```
 
 2.  **Database Configuration:**
+    - **Note:** This project was developed and tested using **[Aiven MySQL](https://aiven.io/)** for cloud database hosting. However, you can use any MySQL provider you are comfortable with (e.g., local MySQL, XAMPP, AWS RDS, etc.).
     - Ensure your MySQL server is running.
     - Create a database (e.g., `file_explorer`).
     - Run the SQL schema to create the required tables:
