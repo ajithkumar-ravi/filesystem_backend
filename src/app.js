@@ -4,8 +4,11 @@ const fileRoutes = require('./routes/fileRoutes');
 
 const app = express();
 
+const allowedOrigin = process.env.FRONTEND_URL || 'http://localhost:5173';
+
 app.use(cors({
-  origin: 'http://localhost:5173' // Frontend URL mattum allow pandrom
+  origin: allowedOrigin,
+  credentials: true
 }));
 app.use(express.json());
 

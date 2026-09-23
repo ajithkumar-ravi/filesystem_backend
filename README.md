@@ -51,6 +51,21 @@ This is the backend for the File Explorer application. It is built using Node.js
 
     The server will start on `http://localhost:5000` (or the port specified in `.env`).
 
+## Render Deployment
+
+This project is optimized for deployment on [Render](https://render.com). 
+
+1. Push your code to a GitHub/GitLab repository.
+2. In the Render Dashboard, create a new **Web Service** and connect your repository.
+3. Use the following settings:
+   - **Environment:** `Node`
+   - **Build Command:** `npm install`
+   - **Start Command:** `npm start`
+4. Add the following **Environment Variables** in the Render dashboard:
+   - `FRONTEND_URL` (e.g., your Vercel URL, to configure CORS)
+   - `DB_HOST`, `DB_USER`, `DB_PASSWORD`, `DB_NAME`, `DB_PORT` (Pointing to your remote MySQL instance like Aiven or PlanetScale)
+5. (Optional) Alternatively, you can use the included `render.yaml` file as a Blueprint to automatically configure the service.
+
 ## API Endpoints
 
 -   `GET /api/files` - List children of a folder (requires `parentId` query param, omit for root)

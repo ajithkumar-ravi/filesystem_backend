@@ -1,5 +1,4 @@
-CREATE DATABASE IF NOT EXISTS file_explorer;
-USE file_explorer;
+
 
 CREATE TABLE IF NOT EXISTS files (
     id INT PRIMARY KEY AUTO_INCREMENT,
