@@ -57,11 +57,11 @@ async function getChildren(parentId) {
   const params = [];
 
   if (parentId === null || parentId === undefined) {
-    query = 'SELECT * FROM files WHERE parent_id IS NULL ORDER BY type != "folder", name ASC';
+    query = 'SELECT * FROM files WHERE parent_id IS NULL ORDER BY type != \'folder\', name ASC';
   } else {
     // Confirm the folder itself exists first.
     await getById(parentId);
-    query = 'SELECT * FROM files WHERE parent_id = ? ORDER BY type != "folder", name ASC';
+    query = 'SELECT * FROM files WHERE parent_id = ? ORDER BY type != \'folder\', name ASC';
     params.push(parentId);
   }
 
@@ -93,7 +93,7 @@ async function createFolder({ name, parentId, owner }) {
   await assertNoDuplicateName(cleanName, parentId ?? null);
 
   const [result] = await pool.query(
-    'INSERT INTO files (name, type, parent_id, content, owner) VALUES (?, "folder", ?, NULL, ?)',
+    'INSERT INTO files (name, type, parent_id, content, owner) VALUES (?, \'folder\', ?, NULL, ?)',
     [cleanName, parentId ?? null, owner]
   );
 
