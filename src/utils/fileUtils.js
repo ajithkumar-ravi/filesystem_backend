@@ -25,6 +25,20 @@ function stripKnownExtension(name) {
   return name;
 }
 
+function validateName(name) {
+  if (!name || typeof name !== 'string') {
+    throw new AppError('Name is required', 400);
+  }
+  const clean = name.trim();
+  if (!clean) {
+    throw new AppError('Name cannot be empty', 400);
+  }
+  if (clean.length > 200) {
+    throw new AppError('Name is too long (maximum 200 characters)', 400);
+  }
+  return clean;
+}
+
 // Builds the final display name for a file based on base name + type.
 function buildFileName(baseName, type) {
   const clean = stripKnownExtension(baseName.trim());
@@ -44,6 +58,7 @@ module.exports = {
   VALID_TYPES,
   VALID_FILE_TYPES,
   AppError,
+  validateName,
   buildFileName,
   isValidType,
   isValidFileType

@@ -1,6 +1,7 @@
 const pool = require('../config/db');
 const {
   AppError,
+  validateName,
   buildFileName,
   isValidType,
   isValidFileType
@@ -84,10 +85,7 @@ async function getBreadcrumb(id) {
 }
 
 async function createFolder({ name, parentId, owner }) {
-  if (!name || !name.trim()) {
-    throw new AppError('Folder name is required', 400);
-  }
-  const cleanName = name.trim();
+  const cleanName = validateName(name);
 
   await assertValidParent(parentId ?? null);
   await assertNoDuplicateName(cleanName, parentId ?? null);
@@ -101,16 +99,14 @@ async function createFolder({ name, parentId, owner }) {
 }
 
 async function createFile({ name, type, parentId, owner, content }) {
-  if (!name || !name.trim()) {
-    throw new AppError('File name is required', 400);
-  }
+  const cleanName = validateName(name);
   if (!isValidFileType(type)) {
     throw new AppError('Unsupported file type', 400);
   }
 
   await assertValidParent(parentId ?? null);
 
-  const finalName = buildFileName(name, type);
+  const finalName = buildFileName(cleanName, type);
   await assertNoDuplicateName(finalName, parentId ?? null);
 
   const [result] = await pool.query(
@@ -129,8 +125,8 @@ async function updateItem(id, { name, type, content }) {
   let finalType = item.type;
 
   if (item.type === 'folder') {
-    if (name && name.trim()) {
-      finalName = name.trim();
+    if (name !== undefined && name !== null) {
+      finalName = validateName(name);
     }
     // Folders cannot change type.
   } else {
@@ -138,7 +134,7 @@ async function updateItem(id, { name, type, content }) {
     if (type && !isValidFileType(type)) {
       throw new AppError('Unsupported file type', 400);
     }
-    const baseName = name && name.trim() ? name : item.name;
+    const baseName = (name !== undefined && name !== null) ? validateName(name) : item.name;
     finalName = buildFileName(baseName, newType);
     finalType = newType;
   }

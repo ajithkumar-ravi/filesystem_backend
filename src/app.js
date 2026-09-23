@@ -1,8 +1,10 @@
 const express = require('express');
 const cors = require('cors');
+const helmet = require('helmet');
 const fileRoutes = require('./routes/fileRoutes');
 
 const app = express();
+app.use(helmet());
 
 const allowedOrigin = process.env.FRONTEND_URL || 'http://localhost:5173';
 
