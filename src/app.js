@@ -4,7 +4,8 @@ const helmet = require('helmet');
 const fileRoutes = require('./routes/fileRoutes');
 
 const app = express();
-app.use(helmet());
+// Disable CORP so cross-origin requests from Vercel are allowed
+app.use(helmet({ crossOriginResourcePolicy: false }));
 
 const allowedOrigin = process.env.FRONTEND_URL || 'http://localhost:5173';
 
